@@ -10,6 +10,8 @@ output: html_document
 ```{r}
 
 #Proyecto PrognoCovid
+numbers <- c(1, 3, 6, 4, 9)
+plot(numbers)
 
 ```
 
