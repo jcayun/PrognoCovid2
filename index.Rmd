@@ -2,10 +2,17 @@
 title: "prognocovid"
 author: "Jpcayun"
 date: "7/10/2021"
-output: html_document
+output: 
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
 ---
 
+```{r setud, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE)
+```
 
+#PrognoCovid
 
 ```{r}
 
