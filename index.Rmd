@@ -16,9 +16,37 @@ knitr::opts_chunk$set(echo=TRUE)
 
 ```{r}
 
-#Proyecto PrognoCovid
-numbers <- c(1, 3, 6, 4, 9)
-plot(numbers)
+#Se agregan librerias
+library(dplyr) # for create tables
+library(table1) # for create tables
+library(data.table) # for create tables
+library(xlsx) # for import files
+library(XML) # for import files
+library(ggplot2) # for create graph 
+library(psych) 
+library(expss)
+library(car)
+library(compute.es)
+library(effects)
+library(multcomp)
+library(pastecs)
+library(WRS)
+library(gtsummary) # for create summary tables
+library(readxl) # for import files
+library(gridExtra)
+library(ez)     # for repeated-measures analysis
+library(ggpubr) # for plots
+library(car)    # for Tukey post-hoc test
+library(rstatix)# for p-values in plots
+library(tinytex) # for use marckdown
+library(printr) #for print tables
+library(readxl) # for read excel files
+library(reshape2)
+library(printr)
+library(transplantr) 
+library(gtsummary)
+library(haplo.stats)
+library(SNPassoc)
 
 ```
 
