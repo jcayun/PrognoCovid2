@@ -1,7 +1,7 @@
 ---
-title: "prognocovid"
-author: "Jpcayun"
-date: "7/10/2021"
+title: "Avance Prognocovid 2021"
+author: "Laboratorio de Carcinogenésis Química y Farmacogenética - Universidad de Chile"
+date: "12/jul/2021"
 output: 
   prettydoc::html_pretty:
     theme: cayman
