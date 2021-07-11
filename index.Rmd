@@ -1,6 +1,6 @@
 ---
-title: "Prognocovid - Biomarcadores genéticos, clínicos y bioquímicos como predictores de mal pronóstico en pacientes diagnosticados con COVID19. Creación de un score de priorización de la atención."
-author: "Laboratorio de Carcinogenésis Química y Farmacogenética - Universidad de Chile"
+title: "prognocovid"
+author: "Jpcayun"
 date: "7/10/2021"
 output: 
   prettydoc::html_pretty:
