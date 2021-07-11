@@ -30,7 +30,7 @@ library(compute.es)
 library(effects)
 library(multcomp)
 library(pastecs)
-library(WRS)
+library(WRS2)
 library(gtsummary) # for create summary tables
 library(readxl) # for import files
 library(gridExtra)

@@ -10,10 +10,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<meta name="author" content="Jpcayun" />
+<meta name="author" content="Laboratorio de Carcinogenésis Química y Farmacogenética - Universidad de Chile" />
 
 
-<title>prognocovid</title>
+<title>Prognocovid - Biomarcadores genéticos, clínicos y bioquímicos como predictores de mal pronóstico en pacientes diagnosticados con COVID19. Creación de un score de priorización de la atención.</title>
 
 <script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
 
@@ -128,8 +128,8 @@ a.sourceLine {
 
 
 <section class="page-header">
-<h1 class="title toc-ignore project-name">prognocovid</h1>
-<h4 class="author project-author">Jpcayun</h4>
+<h1 class="title toc-ignore project-name">Prognocovid - Biomarcadores genéticos, clínicos y bioquímicos como predictores de mal pronóstico en pacientes diagnosticados con COVID19. Creación de un score de priorización de la atención.</h1>
+<h4 class="author project-author">Laboratorio de Carcinogenésis Química y Farmacogenética - Universidad de Chile</h4>
 <h4 class="date project-date">7/10/2021</h4>
 </section>
 
@@ -137,10 +137,160 @@ a.sourceLine {
 
 <section class="main-content">
 <p>#PrognoCovid</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Proyecto PrognoCovid</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>numbers <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">4</span>, <span class="dv">9</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(numbers)</span></code></pre></div>
-<p><img src="data:image/png;base64,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AAECBAgQIEBAAPUeIECAAAECBAgQKKmAAFpSbo0RIECAAAECBAgIoN4DBAgQIECAAAECJRUQQEvKrTECBAgQIECAAAEB1HuAAAECBAgQIECgpAICaEm5NUaAAAECBAgQICCAeg8QIECAAAECBAiUVEAALSm3xggQIECAAAECBARQ7wECBAgQIECAAIGSCgigJeXWGAECBAgQIECAgADqPUCAAAECBAgQIFBSAQG0pNwaI0CAAAECBAgQEEC9BwgQIECAAAECBEoqIICWlFtjBAgQIECAAAECAqj3AAECBAgQIECAQEkFBNCScmuMAAECBAgQIEBAAPUeIECAAAECBAgQKKmAAFpSbo0RIECAAAECBAgIoN4DBAgQIECAAAECJRUQQEvKrTECBAgQIECAAAEB1HuAAAECBAgQIECgpAICaEm5NUaAAAECBAgQICCAeg8QIECAAAECBAiUVEAALSm3xggQIECAAAECBARQ7wECBAgQIECAAIGSCgigJeXWGAECBAgQIECAgADqPUCAAAECBAgQIFBSAQG0pNwaI0CAAAECBAgQEEC9BwgQIECAAAECBEoqIICWlFtjBAgQIECAAAECAqj3AAECBAgQIECAQEkFBNCScmuMAAECBAgQIEBAAPUeIECAAAECBAgQKKmAAFpSbo0RIECAAAECBAgIoN4DBAgQIECAAAECJRUQQEvKrTECBAgQIECAAAEB1HuAAAECBAgQIECgpAICaEm5NUaAAAECBAgQICCAeg8QIECAAAECBAiUVEAALSm3xggQIECAAAECBARQ7wECBAgQIECAAIGSCgigJeXWGAECBAgQIECAQEsExQlcddVVcfXVV8eGG25Y3A5sRYAAAQIECBBYCwKtW7eO8ePHR7t27dbC3ptmly1WfDY1za6qay/9+vWLiy++WACtrrIbLQECBAgQKHuBQYMGxaRJk2LXXXct2746AlpkaVq2bBnt27ePr3zlK0XuwWYECBAgQIAAgaYX2H777Zt+p028R+eANjGo3REgQIAAAQIECHy+gAD6+T6WEiBAgAABAgQINLGAANrEoHZHgAABAgQIECDw+QIC6Of7WEqAAAECBAgQINDEAgJoE4PaHQECBAgQIECgMQKffvpp/P3vf4+ZM2fGsmXLGrNJxawjgFZMKQ2EAAECBAgQyIvAjBkzYvfdd4+ePXvG4MGDs9s6Xn/99Xnp/hfupwD6hQntgAABAgQIECDQeIEFCxbEtttuG8OGDYv58+dnR0AnT54cxx13XPz0pz9t/I5yvKYAmuPi6ToBAgQIECCQP4HTTjstjjrqqDj33HOjRYsW2QDSkdC5c+fGZZddFu+8807+BrWGPRZA1xDM6gQIECBAgACBLyLwxBNPxAUXXFBvF507d46+fftGOhpa6ZMAWukVNj4CBAgQIECgrATWXXfd+PjjjxvsU7owaZ11Kj+eVf4IGyyvmQQIECBAgACB5hEYOHBg/OIXv6jX+IsvvhgTJkyIfv361VtWaTN8F3ylVdR4CBAgQIAAgbIWuOiii6JHjx6xySabxI9+9KNo3bp1FjwHDRoUv/3tb6N9+/Zl3f+m6JwA2hSK9kGAAAECBAgQaKRAOtfz3XffjaFDh2YhdPny5dG9e/cYN25cHHrooY3cS75XE0DzXT+9J0CAAAECBHIo0KZNm7j//vvjk08+yR6tWrWqinM/V5ZKAF0p4ScBAgQIECBAoIQC6RZM6623XvYoYbNl0ZSLkMqiDDpBgAABAgQIEKgeAQG0emptpAQIECBAgACBshAQQMuiDDpBgAABAgQIEKgeAQG0emptpAQIECBAgACBshAQQMuiDDpBgAABAgQIEKgeAQG0emptpAQIECBAgACBshAQQMuiDDpBgAABAgQIEKgeAQG0emptpAQIECBAgACBshAQQMuiDDpBgAABAgQIEKgeAQG0emptpAQIECBAgACBshAQQMuiDDpBgAABAgQIEKgeAQG0emptpAQIECBAgACBshAQQMuiDDpBgAABAgQIEKgeAQG0emptpAQIECBAgACBshAQQMuiDDpBgAABAgQIEKgeAQG0emptpAQIECBAgACBshAQQMuiDDpBgAABAgQIEKgeAQG0emptpAQIECBAgACBshAQQMuiDDpBgAABAgQIEKgeAQG0emptpAQIECBAgACBshAQQMuiDDpBgAABAgQIEKgeAQG0emptpAQIECBAgACBshAQQMuiDDpBgAABAgQIEKgeAQG0emptpAQIECBAgACBshAQQMuiDDpBgAABAgQIEKgegYoKoMuXL48ZM2bEJ598Uj0VNFICBAgQIECAQM4EchlA//KXv8QJJ5wQI0eOjMcffzwjHz16dHTq1Cm23Xbb6NChQ1x33XU5K4Xu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JPCFzgFdo5asTIAAAQIECBAgQOAzgYJHQJPSU089FVdccUV2389ly5bVg3vuuefqzTODAAECBAgQIECAQEMCBQPonDlzYv/9948NN9wwBgwYEO3bt29oP+YRIECAAAECBAgQaJRAwQD6yCOPxDrrrBNTp06NDh06NGqnViJAgAABAgQIECCwOoGC54CmbzzaYosthM/VCZpPgAABAgQIECCwRgIFA+igQYNi5syZ8eKLL67Rjq1MgAABAgQIECBAoCGBgh/Bt27dOoYPHx577713HH744dnR0HXXXbfOvkaNGlXntRcECBAgQIAAAQIEVidQMID++c9/zr7vPe3g1ltvbXA/AmiDLGYSIECAAAECBAg0IFAwgA4ZMiQ33/X+3nvvZV8RuuWWWzYwVLMIECBAgEB5CUyYMCHuv//+WLp0aey2227ZJ47pk0cTgUoXKHgOaJ4Afve730WfPn3y1GV9JUCAAIEqFbj00kuzU9u+9KUvxQ477BCXX355tGnTJhYvXlylIoZdTQIFj4CWG8bPf/7zmDVrVoPdevnllyMdBT3ppJOy5em3yZEjRza4rpkECBAgQKC5BMaOHRvnnntuduRzgw02yLqR/u86+OCD44ADDojHH388WrbM3X/RzcWp3RwK5O7dPXny5Ljtttuy20J17dq1DvnChQvj448/zv7ipgWtWrWqs9wLAgQIECBQDgLXXXddPPjgg7EyfK7s07333hs9evSIadOmxS677LJytp8EKk4gdx/B//rXv470sUUKmkcddVSki6ReeOGF7JHmb7TRRjWvR48evcYFu/nmmyNd5V/okc7Xee2119Z4/zYgQIAAAQJz586NXr16NQix8847x+zZsxtcZiaBShHIXQBN38r0wx/+MNKJ2zfccEOk+5Q25V/UESNGZOE2BdzPe6RzdtJvqSYCBAgQILCmAp07d4502lhD01NPPRXdunVraJF5BCpGIHcBdKV83759Y8qUKbHTTjtlH1PccsstKxd94Z8p5BZ6fOFG7IAAAQIEqlbg2GOPzQ6gfPDBB3UM0kGVBQsWRM+ePevM94JApQnk7hzQ2gVo27ZtjBkzJg466KDsYqN09aCJAAECBAiUu8Dxxx8fr776aqT/xy677LLs9LF0Tuj06dPj/fffdwFSuRdQ/76wQG6PgNYeeQqg6TzQAQMGRO/evWsv8pwAAQIECJSlQLrt0kMPPRTz58/PPtHbd999s4/lHUwpy3LpVBML5PoIaG2LzTbbLMaNG1d7lucECBAgQKCsBQYPHhzpYSJQbQIVcQS02opmvAQIECBAgACBPAsIoHmunr4TIECAAAECBHIoIIDmsGi6TIAAAQIECBDIs4AAmufq6TsBAgQIECBAIIcCAmgOi6bLBAgQIECAAIE8Cwigea6evhMgQIAAAQIEcigggOawaLpMgAABAgQIEMizgACa5+rpOwECBAgQIEAghwICaA6LpssECBAgQIAAgTwLCKB5rp6+EyBAgAABAgRyKCCA5rBoukyAAAECBAgQyLOAAJrn6uk7AQIECBAgQCCHAgJoDoumywQIECBAgACBPAsIoHmunr4TIECAAAECBHIoIIDmsGi6TIAAAQIECBDIs4AAmufq6TsBAgQIECBAIIcCAmgOi6bLBAgQIECAAIE8Cwigea6evhMgQIAAAQIEcigggOawaLpMgAABAgQIEMizgACa5+rpOwECBAgQIEAghwICaA6LpssECBAgQIAAgTwLCKB5rp6+EyBAgAABAgRyKCCA5rBoukyAAAECBAgQyLOAAJrn6uk7AQIECBAgQCCHAgJoDoumywQIECBAgACBPAu0zHPn9Z1AJQi8/PLL8cgjj8SSJUuiT58+MXjw4FhnHb8bVkJtjYEAAQIEGhbwv1zDLuYSKInALbfcEnvssUdMnTo1FixYEIceemi0b98+li1bVpL2NUKAAAECBJpDwBHQ5lDXJoHPBMaPHx8jRoyI2bNnx1ZbbZWZ/OxnP4tu3brF0KFD4w9/+EO0aNGCFQECBAgQqDgBR0ArrqQGlBeBFDbvuOOOmvC5st+zZs2KKVOmxCuvvLJylp8ECBAgQKCiBATQiiqnweRJIAXNPffcs16X01HPfv36CaD1ZMwgQIAAgUoREEArpZLGkTuBzTbbLFIIbWj661//GptvvnlDi8wjQIAAAQK5FxBAc19CA8irwOGHHx6nnHJKrFixos4QTjvttHj11Vdjl112qTPfCwIECBAgUCkCLkKqlEoaR+4EzjzzzJg4cWJ2y6Vbb701OnToEPfee29cffXVMX/+/Fh//fVzNyYdJkCAAAECjREQQBujZB0Ca0EgneuZAueNN94Y99xzT3Yf0N122y3mzp0bHTt2XAst2iUBAgQIECgPAQG0POqgF1UsMHLkyEgPEwECBAgQqBYB54BWS6WNkwABAgQIECBQJgICaJkUQjcIECBAgAABAtUiIIBWS6WNkwABAgQIECBQJgICaJkUQjcIECBAgAABAtUiIIBWS6WNkwABAgQIECBQJgICaJkUQjcIECBAgAABAtUiIIBWS6WNkwABAgQIECBQJgICaJkUQjcIECBAgAABAtUiIIBWS6WNkwABAgQIECBQJgICaJkUQjcIECBAgAABAtUiIIBWS6WNkwABAgQIECBQJgICaJkUQjcIECBAgAABAtUiIIBWS6WNkwABAgQIECBQJgICaJkUQjcIECBAgAABAtUiIIBWS6WNkwABAgQIECBQJgICaJkUQjcIECBAgAABAtUiIIBWS6WNkwABAgQIECBQJgICaJkUQjcIECBAgAABAtUiIIBWS6WNkwABAgQIECBQJgICaJkUQjcIECBAgAABAtUiIIBWS6WNkwABAgQIECBQJgICaJkUQjcIECBAgAABAtUiIIBWS6WNkwABAgQIECBQJgICaJkUQjcIECBAgAABAtUiIIBWS6WNkwABAgQIECBQJgICaJkUQjcIECBAgAABAtUikOsAumLFitXW6YMPPoj0MBEgQIAAAQIECJSXQC4D6H/8x39Ejx49onXr1jFgwIB48skn66kOHz48jj766HrzzSBAgAABAgQIEGhegdwF0IceeigLlt26dYszzzwz5s+fH1/72tfiV7/6VfNKap0AAQIECBAgQKBRAi0btVYZrXTttdfGkCFD4v777896ddFFF8X5558fJ598crRr1+4LH/X87//+77j00ksLjvj999+PuXPnFlzPCgQIECBAgAABAnUFchdAZ8+eXSdktmjRIv71X/81Pv300/j+978fXbt2jcGDB9cd5Rq82n333eOnP/1pwS3Sx/t9+/YtuJ4VCBAgQIAAAQIE6grkLoB26dIlHn300TjppJPqjOSSSy6JOXPmxLBhw2LixIl1lq3Ji8022yzSo9C06aabxiabbFJoNcsJECBAgAABAgRWEcjdOaDp4qLx48dnRzv/9Kc/1RnOjTfeGAMHDoy99947XnjhhTrLvCBAgAABAgQIECgPgdwF0MMPPzzOO++8+M///M/sUZuxZcuWcfvtt8fQoUNjxowZtRd5ToAAAQIECBAgUCYCufsIPrn9+Mc/zq6AX7hwYT3GVq1axU033RQnnHBCzJs3r95yMwgQIECAAAECBJpXIJcBNJGle4B26tRptXr9+/df7TILCBAgQIAAAQIEmk8gdx/BNx+VlgkQIECAAAECBJpCQABtCkX7IECAAAECBAgQaLSAANpoKisSIECAAAECBAg0hYAA2hSK9kGAAAECBAgQINBoAQG00VRWJECAAAECBAgQaAoBAbQpFO2DAAECBAgQIECg0QICaKOprEiAAAECBAgQINAUAgJoUyjaBwECBAgQIECAQKMFBNBGU1mRAAECBAgQIECgKQQE0KZQtA8CBAgQIECAAIFGCwigjaayIgECBAgQIECAQFMICKBNoWgfBAgQIECAAAECjRYQQBtNZUUCBAgQIECAAIGmEBBAm0LRPggQIECAAAECBBotIIA2msqKBAgQIECAAAECTSEggDaFon0QIECAAAECBAg0WkAAbTSVFQkQIECAAAECBJpCQABtCkX7IECAAAECBAgQaLSAANpoKisSIECAAAECBAg0hYAA2hSK9kGAAAECBAgQINBoAQG00VRWJECAAAECBAgQaAoBAbQpFO2DAAECBAgQIECg0QICaKOprEiAAAECBAgQINAUAgJoUyjaBwECBAgQIECAQKMFWjZ6TSuuNYEPP/wwpk2bFkuWLIlevXrFJptsstbasmMCBAgQIECAQHMLOALazBV47rnnYuutt45jjjkmzjvvvOjYsWOccsopzdwrzRMgQIAAAQIE1p6AI6Brz7bgnmfMmBH9+vWLcePGxRFHHJGt/+6778bGG28cLVu2jNGjRxfchxUIECBAgAABAnkTcAS0GSs2atSoOPfcc2vCZ+pKhw4dYvHixXHTTTfFW2+91Yy90zQBAgQIECBAYO0ICKBrx7VRe3366afj+OOPr7duu3bton///jFlypR6y8wgQIAAAQIECORdQABtxgpusMEG2YVHDXVh4cKF0bZt24YWmUeAAAECBAgQyLWAANqM5dt3330jfQy/6vTwww/HpEmTom/fvqsu8poAAQIECBAgkHsBFyE1Ywl/8pOfRPv27aNz587x5JNPZud/jh8/Po4++ugsgKaP4k0ECBAgQIAAgUoTEECbsaIpYC5btixOPPHEGDhwYCxdujT69OkTEyZMyM4BbcauaZoAAQIECBAgsNYEBNC1Rtu4Ha+33noxduzYxq1sLQIE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N96IJ554QvgsyyqtvU7ddNNN2fler732Wk0j6Wh4ugeoO2LUkFTkk/QxazrPr/Zj/Pjx2VhvueWWuP322yty3Ab1fwLp4/d0Ieqrr75aMzMdkHj44YdrroyvWVChTwTQCi2sYZW/QLrXZwqehx12WKR7QabzwVY+0onppsoWGD58eKRzfdM3IaX7fr7wwgvZN6F9/PHHceqpp1b24Kt8dOk2Wz179qzz2GabbTKV9NGsu6JU/hsk/f1ff/31s7//6fSrdEumESNGRPpWxLPPPrvyAT4boY/gq6LMBlmOAunjtzT98pe/zB61+5jOCU1XQ5oqVyDdaP7uu+/OQme6ICFNW265Zfzud7+rc2/YyhUwMgLVK7DjjjvGXXfdld2KL30dZ5rSLx6PPPJIrPqxfKUqtfjsY8AVlTo44yJAgEC5C6R/gtO5oOl7wFMANREgUD0C6e9/Og0rHRXv1KlT9Qz8s5EKoFVVboMlQIAAAQIECDS/gHNAm78GekCAAAECBAgQqCoBAbSqym2wBAgQIECAAIHmFxBAm78GekCAAAECBAgQqCoBAbSqym2wBAgQIECAAIHmFxBAm78GekCAAAECBAgQqCoBAbSqym2wBAgQIECAAIHmFxBAm78GekCAAAECBAgQqCoBAbSqym2wBAgQIECAAIHmFxBAm78GekCAAAECBAgQqCoBAbSqym2wBAgQIECAAIHmFxBAm78GekCAAAECBAgQqCoBAbSqym2wBAgQIECAAIHmFxBAm78GekCAAAECBAgQqCoBAbSqym2wBAgQIECAAIHmFxBAm78GekCAAAECBAgQqCoBAbSqym2wBAgQIECAAIHmFxBAm78GekCAAAECBAgQqCoBAbSqym2wBAgQIECAAIHmFxBAm78GekCAAAECBAgQqCoBAbSqym2wBAgQIECAAIHmFxBAm78GekCAAAECBAgQqCoBAbSqym2wBAgQIECAAIHmFxBAm78GekCAAAECBAgQqCoBAbSqym2wBAgQIECAAIHmFxBAm78GekCAAAECBAgQqCoBAbSqym2wBAg0pcBf/vKXaNGiRdx+++1feLfrrrtuXHPNNV94P3ZAgACBPAgIoHmokj4SIECAAAECBCpIQACtoGIaCgECBAgQIEAgDwICaB6qpI8ECORGYO+9944HH3wwTj755Nhyyy2zxxlnnBEff/xxzRhmz54dI0eOjE6dOkXfvn3joYceqlm28sl7770X//zP/xw9evSITTfdNIYOHRqvv/76ysVx0kknRWpryZIlNfMuuuii2GuvveLtt9+umecJAQIEylFAAC3HqugTAQK5FXj++efje9/7XkyZMiXOOeecOOCAA2L06NFx5ZVXZmNatmxZDBs2LJ599tm46qqrYsSIETF8+PBYvnx5zZhXrFgRgwcPjjvvvDO+853vxNVXXx0LFiyIfv36xbvvvputl8LppEmT4rzzzstep+cXXHBBHHroodGxY8eafXlCgACBchRoWY6d0icCBAjkWWDzzTeP//mf/8kuUErjmDp1ajzwwAORjoTefPPNkULqzJkzs6OjafnGG28c3/3ud9PTbErBMwXKe++9Nw466KBs3oEHHpgdCU1h9uKLL46ePXtm4fP888/PQuoxxxyTHf089dRT//9e/CBAgED5CjgCWr610TMCBHIqMGjQoJrwmYaw3XbbxeLFi7PRpPC5++6714TPNPNb3/pWrLPO//1zPHHixNhwww2zwDl58uRIj5deein69OkTTz75ZLaf9MdZZ50VO++8c3z961+PN998Mwu36ap8EwECBMpdwBHQcq+Q/hEgkDuBdM5m7al169Y1H7FPnz490hHS2tN6662Xhc2V82bNmhWLFi2K/v37r5xV87N79+41z1u2bBmjRo3KPsJPR1BrL6tZyRMCBAiUocD//cpdhp3TJQIECORR4POOQm6xxRaxcOHCesNKFx2tnDbaaKMsTC5dujTS/NqPadOmrVwtPvzww0gXHnXp0iXGjRsXTz/9dM0yTwgQIFDOAgJoOVdH3wgQqDiB3r17Z+eA1r56PYXKFDZXTjvttFOko6Bpftu2bbNHmzZt4pRTTonrr79+5WrZOaDpivonnngiO1qaLmhKodREgACBchcQQMu9QvpHgEBFCXz729+Odu3axXHHHZdd2f7YY4/FkUceWWeMxx9/fHTo0CELnOmWTukK+AsvvDBuvPHG+OpXv5qtmy5SShckpSOgW2+9dYwdOza7sOnHP/5xnX15QYAAgXIUEEDLsSr6RIBAxQqk8z//67/+K9K5oOlc0f322y/233//7GP0lYNOV8Wne4N+8MEHMWTIkGy98ePHx5gxY7ILmNJRznS0c7fddstCatpuxx13zG779G//9m/xxz/+ceWu/CRAgEBZCrT47H5zK8qyZzpFgACBCheYN29edjQ0fcy+uind9/Ojjz7Kblq/unXMJ0CAQN4EBNC8VUx/CRAgQIAAAQI5F/ARfM4LqPsECBAgQIAAgbwJCKB5q5j+EiBAgAABAgRyLiCA5ryAuk+AAAECBAgQyJuAAJq3iukvAQIECBAgQCDnAgJozguo+wQIECBAgACBvAkIoHmrmP4SIECAAAECBHIuIIDmvIC6T4AAAQIECBDIm4AAmreK6S8BAgQIECBAIOcCAmjOC6j7BAgQIECAAIG8CQigeauY/hIgQIAAAQIEci4ggOa8gLpPgAABAgQIEMibgACat4rpLwECBAgQIEAg5wICaM4LqPsECBAgQIAAgbwJCKB5q5j+EiBAgAABAgRyLiCA5ryAuk+AAAECBAgQyJuAAJq3iukvAQIECBAgQCDnAgJozguo+wQIECBAgACBvAkIoHmrmP4SIECAAAECBHIuIIDmvIC6T4AAAQIECBDIm4AAmreK6S8BAgQIECBAIOcCAmjOC6j7BAgQIECAAIG8CQigeauY/hIgQIAAAQIEci7wvyAke4nnki+QAAAAAElFTkSuQmCC" /><!-- --></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Se agregan librerias</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr) <span class="co"># for create tables</span></span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(table1) <span class="co"># for create tables</span></span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;table1&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     units, units&lt;-</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table) <span class="co"># for create tables</span></span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;data.table&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     between, first, last</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xlsx) <span class="co"># for import files</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(XML) <span class="co"># for import files</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2) <span class="co"># for create graph </span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych) </span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;psych&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:ggplot2&#39;:
+## 
+##     %+%, alpha</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(expss)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;expss&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
+## 
+##     vars</code></pre>
+<pre><code>## The following objects are masked from &#39;package:data.table&#39;:
+## 
+##     copy, like</code></pre>
+<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     between, compute, contains, first, last, na_if, recode, vars</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span></code></pre></div>
+<pre><code>## Loading required package: carData</code></pre>
+<pre><code>## 
+## Attaching package: &#39;car&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:expss&#39;:
+## 
+##     recode</code></pre>
+<pre><code>## The following object is masked from &#39;package:psych&#39;:
+## 
+##     logit</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     recode</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(compute.es)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effects)</span></code></pre></div>
+<pre><code>## Registered S3 methods overwritten by &#39;lme4&#39;:
+##   method                          from
+##   cooks.distance.influence.merMod car 
+##   influence.merMod                car 
+##   dfbeta.influence.merMod         car 
+##   dfbetas.influence.merMod        car</code></pre>
+<pre><code>## lattice theme set by effectsTheme()
+## See ?effectsTheme for details.</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(multcomp)</span></code></pre></div>
+<pre><code>## Loading required package: mvtnorm</code></pre>
+<pre><code>## Loading required package: survival</code></pre>
+<pre><code>## Loading required package: TH.data</code></pre>
+<pre><code>## Loading required package: MASS</code></pre>
+<pre><code>## 
+## Attaching package: &#39;MASS&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     select</code></pre>
+<pre><code>## 
+## Attaching package: &#39;TH.data&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:MASS&#39;:
+## 
+##     geyser</code></pre>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pastecs)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;pastecs&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:expss&#39;:
+## 
+##     first, last</code></pre>
+<pre><code>## The following objects are masked from &#39;package:data.table&#39;:
+## 
+##     first, last</code></pre>
+<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     first, last</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(WRS2)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtsummary) <span class="co"># for create summary tables</span></span></code></pre></div>
+<pre><code>## #Uighur</code></pre>
+<pre><code>## 
+## Attaching package: &#39;gtsummary&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:MASS&#39;:
+## 
+##     select</code></pre>
+<pre><code>## The following objects are masked from &#39;package:expss&#39;:
+## 
+##     contains, vars</code></pre>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl) <span class="co"># for import files</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;gridExtra&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     combine</code></pre>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ez)     <span class="co"># for repeated-measures analysis</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpubr) <span class="co"># for plots</span></span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;ggpubr&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:expss&#39;:
+## 
+##     compare_means</code></pre>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)    <span class="co"># for Tukey post-hoc test</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstatix)<span class="co"># for p-values in plots</span></span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;rstatix&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:MASS&#39;:
+## 
+##     select</code></pre>
+<pre><code>## The following object is masked from &#39;package:stats&#39;:
+## 
+##     filter</code></pre>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tinytex) <span class="co"># for use marckdown</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(printr) <span class="co">#for print tables</span></span></code></pre></div>
+<pre><code>## Registered S3 method overwritten by &#39;printr&#39;:
+##   method                from     
+##   knit_print.data.frame rmarkdown</code></pre>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl) <span class="co"># for read excel files</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;reshape2&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:data.table&#39;:
+## 
+##     dcast, melt</code></pre>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(printr)</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(transplantr) </span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtsummary)</span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haplo.stats)</span></code></pre></div>
+<pre><code>## Loading required package: arsenal</code></pre>
+<pre><code>## Registered S3 methods overwritten by &#39;Hmisc&#39;:
+##   method                 from 
+##   [.labelled             expss
+##   print.labelled         expss
+##   as.data.frame.labelled expss</code></pre>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SNPassoc)</span></code></pre></div>
+<pre><code>## Registered S3 method overwritten by &#39;SNPassoc&#39;:
+##   method            from       
+##   summary.haplo.glm haplo.stats</code></pre>
 </section>
 
 
