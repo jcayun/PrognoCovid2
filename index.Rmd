@@ -12,9 +12,9 @@ output:
 knitr::opts_chunk$set(echo=TRUE)
 ```
 
-#PrognoCovid
 
-```{r}
+
+```{r echo=FALSE, comment=NA, results='hide',message=FALSE, warning = FALSE}
 
 #Se agregan librerias
 library(dplyr) # for create tables
@@ -49,5 +49,288 @@ library(haplo.stats)
 library(SNPassoc)
 
 ```
+
+#Avance de resultados del estudio PrognoCovid. Los datos se han actualizado a la fecha indicada. 
+
+#Tabla 1 y 2. Se muestran los formularios completos.
+
+```{r echo=FALSE, comment=NA, results='hide',message=FALSE, warning = FALSE}
+library(readr)
+COVIDRepositorioCRF_DATA <- read_csv("COVIDRepositorioCRF-BACKUP2021_DATA_2021-07-11_1348.csv")
+data <- COVIDRepositorioCRF_DATA
+data <- data[!(is.na(data$cod_participante)),]
+data2 <- COVIDRepositorioCRF_DATA
+data2 <- data2[(is.na(data2$cod_participante)),]
+```
+
+
+```{r echo=FALSE, results='hide', comment=NA,message=FALSE, warning = FALSE}
+#Formularios únicos
+data$ficha_demografica_complete <- factor(data$ficha_demografica_complete, levels=c(0,1,2), labels = c("Incomplete","Unverified","Complete"))
+data$ficha_clinica_complete <- factor(data$ficha_clinica_complete, levels=c(0,1,2), labels = c("Incomplete","Unverified","Complete"))
+data$evaluacion_egreso_complete <- factor(data$evaluacion_egreso_complete, levels=c(0,1,2), labels = c("Incomplete","Unverified","Complete"))
+
+
+```
+
+```{r echo=FALSE, comment=NA, message=FALSE, warning = FALSE}
+table1(~  data$ficha_demografica_complete + data$ficha_clinica_complete + data$evaluacion_egreso_complete, data=data, overall = "Total")
+
+```
+
+
+```{r echo=FALSE, results='hide', comment=NA,message=FALSE, warning = FALSE}
+
+#Formularios que se repiten
+data2$seguimiento_complete <- factor(data2$seguimiento_complete, levels=c(0,1,2), labels = c("Incomplete","Unverified","Complete"))
+data2$medicamentos_covid_complete <- factor(data2$medicamentos_covid_complete, levels=c(0,1,2), labels = c("Incomplete","Unverified","Complete"))
+data2$tratamiento_covid_complete <- factor(data2$tratamiento_covid_complete, levels=c(0,1,2), labels = c("Incomplete","Unverified","Complete"))
+data2$exmenes_de_sangre_complete <- factor(data2$exmenes_de_sangre_complete, levels=c(0,1,2), labels = c("Incomplete","Unverified","Complete"))
+data2$imagenologa_y_cultivos_complete <- factor(data2$imagenologa_y_cultivos_complete, levels=c(0,1,2), labels = c("Incomplete","Unverified","Complete"))
+
+
+```
+
+```{r echo=FALSE, comment=NA,message=FALSE, warning = FALSE}
+table1(~ data2$seguimiento_complete + data2$tratamiento_covid_complete + data2$medicamentos_covid_complete + data2$imagenologa_y_cultivos_complete, data=data2, overall = "Total")
+```
+
+
+
+#Tabla 3. Se muestra el resumen de los datos demográficos. 
+
+
+```{r echo=FALSE, comment=NA, results='hide',message=FALSE, warning = FALSE}
+data$hospital <- factor(data$hospital, levels = c(1,2,3,4,5,6,7,8,9,10,11,12), labels = c("HAP", "UCH", "HSJ", "FAL", "HIG", "TEM", "TAR", "ANT", "VAL", "MAG", "HDS", "UDA"))
+data$sexo <- factor(data$sexo, levels = c(1,0), labels = c("masculino", "femenino"))
+data$PCR <- factor(data$metodo_diagnostico___1, levels = c(1,0), labels = c("Si", "No"))
+data$prueba_serologica <- factor(data$metodo_diagnostico___2, levels = c(1,0), labels = c("Si", "No"))
+data$sospecha_clinica <- factor(data$metodo_diagnostico___3, levels = c(1,0), labels = c("Si", "No"))
+data$tabaco = factor(data$tabaco, levels = c(1,0), labels = c("Si", "No"))
+data$alcohol = factor(data$alcohol, levels = c(1,0,2), labels = c("Si", "No", "Suspendido"))
+data$drogas = factor(data$drogas, levels = c(1,0,2), labels = c("Si", "No", "Suspendido"))
+
+```
+
+
+
+```{r echo=FALSE, comment=NA,message=FALSE, warning = FALSE}
+table1(~  data$sexo + data$hospital + data$edad_participante + data$PCR + data$prueba_serologica + data$sospecha_clinica + data$tabaco + data$alcohol + data$drogas, data=data, overall = "Total")
+
+```
+
+#Tabla 4. Determinantes sociales
+
+
+```{r echo=FALSE, comment=NA, results='hide',message=FALSE, warning = FALSE}
+data$educacion <- factor(data$educacion, levels=c("0","1","2","3","4","5","6","7","8","9","-888"), labels = c("Ninguno","Analfabeto","Básico completo","Medio completo","Técnico profesional completo","Universitario completo","Básico incompleto","Medio incompleto","Técnico profesional incompleto","Universitario incompleto","No Sabe / No determinado"))
+
+data$ocupacion <- factor(data$ocupacion, levels=c("1","2","3","-888"), labels = c("Activo","Inactivo","Cesante","No Sabe / No determinado"))
+
+data$prevision <- factor(data$prevision, levels=c("1","2","3","4","5","99"), labels = c("Sistema Público FONASA","F.F.A.A y de orden","ISAPRE","Particular","Ninguno","Otro {otra_prevision}"))
+
+```
+
+
+```{r echo=FALSE, comment=NA,message=FALSE, warning = FALSE}
+table1(~  data$educacion + data$ocupacion + data$prevision, data=data, overall = "Total")
+
+```
+
+
+
+```{r echo=FALSE, comment=NA, results='hide',message=FALSE, warning=FALSE}
+data$ninguno <- factor(data$ant_sintomaticos___0, levels = c(1,0), labels = c("Si", "No"))
+data$fiebre <- factor(data$ant_sintomaticos___101, levels = c(1,0), labels = c("Si", "No"))
+data$escalofrio <- factor(data$ant_sintomaticos___102, levels = c(1,0), labels = c("Si", "No"))
+data$con_nasal <- factor(data$ant_sintomaticos___103, levels = c(1,0), labels = c("Si", "No"))
+data$tos_seca <- factor(data$ant_sintomaticos___104, levels = c(1,0), labels = c("Si", "No"))
+data$tos_productiva <- factor(data$ant_sintomaticos___105, levels = c(1,0), labels = c("Si", "No"))
+data$dolor_pecho <- factor(data$ant_sintomaticos___106, levels = c(1,0), labels = c("Si", "No"))
+data$disnea <- factor(data$ant_sintomaticos___107, levels = c(1,0), labels = c("Si", "No"))
+data$disnea_reposo <- factor(data$ant_sintomaticos___134, levels = c(1,0), labels = c("Si", "No"))
+data$taquipnea <- factor(data$ant_sintomaticos___135, levels = c(1,0), labels = c("Si", "No"))
+data$hiperpnea <- factor(data$ant_sintomaticos___136, levels = c(1,0), labels = c("Si", "No"))
+data$bradipnea <- factor(data$ant_sintomaticos___137, levels = c(1,0), labels = c("Si", "No"))
+data$estornudos <- factor(data$ant_sintomaticos___108, levels = c(1,0), labels = c("Si", "No"))
+data$hemoptisis <- factor(data$ant_sintomaticos___138, levels = c(1,0), labels = c("Si", "No"))
+data$secresion_nasal <- factor(data$ant_sintomaticos___109, levels = c(1,0), labels = c("Si", "No"))
+data$irritacion_ocular <- factor(data$ant_sintomaticos___110, levels = c(1,0), labels = c("Si", "No"))
+data$conjuntivitis <- factor(data$ant_sintomaticos___111, levels = c(1,0), labels = c("Si", "No"))
+data$diarrea <- factor(data$ant_sintomaticos___112, levels = c(1,0), labels = c("Si", "No"))
+data$cansancio <- factor(data$ant_sintomaticos___113, levels = c(1,0), labels = c("Si", "No"))
+data$entumecimiento <- factor(data$ant_sintomaticos___114, levels = c(1,0), labels = c("Si", "No"))
+data$dolor_abdominal <- factor(data$ant_sintomaticos___115, levels = c(1,0), labels = c("Si", "No"))
+data$dolor_espalda <- factor(data$ant_sintomaticos___116, levels = c(1,0), labels = c("Si", "No"))
+data$dolor_garganta <- factor(data$ant_sintomaticos___117, levels = c(1,0), labels = c("Si", "No"))
+data$dolor_respirar <- factor(data$ant_sintomaticos___118, levels = c(1,0), labels = c("Si", "No"))
+data$vomitos <- factor(data$ant_sintomaticos___119, levels = c(1,0), labels = c("Si", "No"))
+data$incap_hablar <- factor(data$ant_sintomaticos___120, levels = c(1,0), labels = c("Si", "No"))
+data$mialgia <- factor(data$ant_sintomaticos___121, levels = c(1,0), labels = c("Si", "No"))
+data$odinofagia <- factor(data$ant_sintomaticos___122, levels = c(1,0), labels = c("Si", "No"))
+data$adeusia <- factor(data$ant_sintomaticos___123, levels = c(1,0), labels = c("Si", "No"))
+data$decaimiento <- factor(data$ant_sintomaticos___124, levels = c(1,0), labels = c("Si", "No"))
+data$dolor_opresion_pecho <- factor(data$ant_sintomaticos___125, levels = c(1,0), labels = c("Si", "No"))
+data$lesiones_cutaneas <- factor(data$ant_sintomaticos___126, levels = c(1,0), labels = c("Si", "No"))
+data$perdida_color_dedos <- factor(data$ant_sintomaticos___127, levels = c(1,0), labels = c("Si", "No"))
+data$mareos <- factor(data$ant_sintomaticos___128, levels = c(1,0), labels = c("Si", "No"))
+data$cefalea <- factor(data$ant_sintomaticos___129, levels = c(1,0), labels = c("Si", "No"))
+data$perdida_consciencia <- factor(data$ant_sintomaticos___139, levels = c(1,0), labels = c("Si", "No"))
+data$anosmia <- factor(data$ant_sintomaticos___130, levels = c(1,0), labels = c("Si", "No"))
+data$enrojecimento_piel <- factor(data$ant_sintomaticos___131, levels = c(1,0), labels = c("Si", "No"))
+data$picazon_piel <- factor(data$ant_sintomaticos___132, levels = c(1,0), labels = c("Si", "No"))
+data$erupciones_bucales <- factor(data$ant_sintomaticos___133, levels = c(1,0), labels = c("Si", "No"))
+
+```
+
+#Tabla 5. Sintomas al ingreso hospitalario
+
+```{r echo=FALSE, comment=NA, warning= FALSE, message=FALSE}
+table1(~  data$ninguno + data$fiebre + data$escalofrio  +data$con_nasal  +data$tos_seca  +data$tos_productiva  +data$dolor_pecho  +data$disnea  +data$disnea_reposo  +data$taquipnea  +data$hiperpnea   +data$bradipnea  +data$estornudos +data$hemoptisis  +data$secresion_nasal  +data$irritacion_ocular  +data$conjuntivitis +data$diarrea  +data$cansancio  +data$entumecimiento  +data$dolor_abdominal  +data$dolor_espalda  +data$dolor_garganta  +data$dolor_respirar  +data$vomitos  +data$incap_hablar  +data$mialgia  +data$odinofagia  +data$adeusia  +data$decaimiento  +data$dolor_opresion_pecho  +data$lesiones_cutaneas +data$perdida_color_dedos  +data$mareos  +data$cefalea  +data$perdida_consciencia  +data$anosmia  +data$enrojecimento_piel +data$picazon_piel  +data$erupciones_bucales, data=data, overall = "Total")
+
+```
+
+
+```{r echo=FALSE, comment=NA, results='hide',message=FALSE, warning = FALSE}
+data$ninguna  <- factor(data$enf_previas___0, levels = c(1,0), labels = c("Si", "No"))
+data$bronquitis  <- factor(data$enf_previas___2, levels = c(1,0), labels = c("Si", "No"))
+data$hipertension  <- factor(data$enf_previas___3, levels = c(1,0), labels = c("Si", "No"))
+data$dislipidemias  <- factor(data$enf_previas___4, levels = c(1,0), labels = c("Si", "No"))
+data$cardiopatia_cor  <- factor(data$enf_previas___5, levels = c(1,0), labels = c("Si", "No"))
+data$enf_hep_cronica  <- factor(data$enf_previas___6, levels = c(1,0), labels = c("Si", "No"))
+data$ins_renal_cronica  <- factor(data$enf_previas___7, levels = c(1,0), labels = c("Si", "No"))
+data$asma  <- factor(data$enf_previas___8, levels = c(1,0), labels = c("Si", "No"))
+data$epoc  <- factor(data$enf_previas___9, levels = c(1,0), labels = c("Si", "No"))
+data$fibrosis_quistica_  <- factor(data$enf_previas___10, levels = c(1,0), labels = c("Si", "No"))
+data$fibrosis_pulmonar_  <- factor(data$enf_previas___11, levels = c(1,0), labels = c("Si", "No"))
+data$enfisema  <- factor(data$enf_previas___12, levels = c(1,0), labels = c("Si", "No"))
+data$diabetes1  <- factor(data$enf_previas___13, levels = c(1,0), labels = c("Si", "No"))
+data$diabetes2  <- factor(data$enf_previas___14, levels = c(1,0), labels = c("Si", "No"))
+data$aterosclerosis  <- factor(data$enf_previas___15, levels = c(1,0), labels = c("Si", "No"))
+data$acv  <- factor(data$enf_previas___16, levels = c(1,0), labels = c("Si", "No"))
+data$ins_cardiaca  <- factor(data$enf_previas___17, levels = c(1,0), labels = c("Si", "No"))
+data$obesidad  <- factor(data$enf_previas___18, levels = c(1,0), labels = c("Si", "No"))
+data$enf_renal_cron  <- factor(data$enf_previas___19, levels = c(1,0), labels = c("Si", "No"))
+data$crohn  <- factor(data$enf_previas___20, levels = c(1,0), labels = c("Si", "No"))
+data$cancer  <- factor(data$enf_previas___21, levels = c(1,0), labels = c("Si", "No"))
+data$tuberculosis  <- factor(data$enf_previas___22, levels = c(1,0), labels = c("Si", "No"))
+data$vih  <- factor(data$enf_previas___23, levels = c(1,0), labels = c("Si", "No"))
+data$enf_inf_previa  <- factor(data$enf_previas___24, levels = c(1,0), labels = c("Si", "No"))
+data$enf_infecciosa  <- factor(data$enf_previas___25, levels = c(1,0), labels = c("Si", "No"))
+data$anemia  <- factor(data$enf_previas___26, levels = c(1,0), labels = c("Si", "No"))
+data$ar  <- factor(data$enf_previas___27, levels = c(1,0), labels = c("Si", "No"))
+data$lupus  <- factor(data$enf_previas___28, levels = c(1,0), labels = c("Si", "No"))
+data$otras_enf_reumatoides  <- factor(data$enf_previas___29, levels = c(1,0), labels = c("Si", "No"))
+data$hep_b  <- factor(data$enf_previas___30, levels = c(1,0), labels = c("Si", "No"))
+data$hep_c  <- factor(data$enf_previas___31, levels = c(1,0), labels = c("Si", "No"))
+data$otra_hep  <- factor(data$enf_previas___32, levels = c(1,0), labels = c("Si", "No"))
+data$demencia  <- factor(data$enf_previas___33, levels = c(1,0), labels = c("Si", "No"))
+data$parkinson  <- factor(data$enf_previas___34, levels = c(1,0), labels = c("Si", "No"))
+data$alzheimer  <- factor(data$enf_previas___35, levels = c(1,0), labels = c("Si", "No"))
+data$depresion  <- factor(data$enf_previas___36, levels = c(1,0), labels = c("Si", "No"))
+data$ansiedad  <- factor(data$enf_previas___37, levels = c(1,0), labels = c("Si", "No"))
+data$alcohol_abuso  <- factor(data$enf_previas___38, levels = c(1,0), labels = c("Si", "No"))
+data$drogas_abuso  <- factor(data$enf_previas___39, levels = c(1,0), labels = c("Si", "No"))
+data$otro_salud_mental  <- factor(data$enf_previas___40, levels = c(1,0), labels = c("Si", "No"))
+data$inmunosupresion  <- factor(data$enf_previas___41, levels = c(1,0), labels = c("Si", "No"))
+data$aki  <- factor(data$enf_previas___42, levels = c(1,0), labels = c("Si", "No"))
+data$enf_pul_intersticial  <- factor(data$enf_previas___43, levels = c(1,0), labels = c("Si", "No"))
+data$inf_resp_menos_30dias  <- factor(data$enf_previas___44, levels = c(1,0), labels = c("Si", "No"))
+data$otras_enf_previas  <- factor(data$enf_previas___99, levels = c(1,0), labels = c("Si", "No"))
+
+```
+
+#Tabla 6. Enfermedades previos al ingreso hospitalario.
+
+```{r echo=FALSE, comment=NA,message=FALSE, warning = FALSE}
+table1(~  data$ninguna  +data$bronquitis   +data$hipertension   +data$dislipidemias   +data$cardiopatia_cor   +data$enf_hep_cronica   +data$ins_renal_cronica   +data$asma  +data$epoc   +data$fibrosis_quistica_   +data$fibrosis_pulmonar_   +data$enfisema  +data$diabetes1   +data$diabetes2   +data$aterosclerosis   +data$acv   +data$ins_cardiaca   +data$obesidad   +data$enf_renal_cron   +data$crohn  +data$cancer  +data$tuberculosis   +data$vih   +data$enf_inf_previa   +data$enf_infecciosa  +data$anemia   +data$ar   +data$lupus   +data$otras_enf_reumatoides   +data$hep_b   +data$hep_c   +data$otra_hep  +data$demencia  +data$parkinson  +data$alzheimer   +data$depresion  +data$ansiedad   +data$alcohol_abuso   +data$drogas_abuso  +data$otro_salud_mental   +data$inmunosupresion   +data$aki   +data$enf_pul_intersticial   +data$inf_resp_menos_30dias  +data$otras_enf_previas, data=data, overall = "Total")
+
+```
+
+#Tabla 7.  Datos clínicos al ingreso
+
+```{r echo=FALSE, comment=NA, results='hide',message=FALSE, warning = FALSE}
+data$alergia <- factor(data$alergia, levels = c(1,0), labels = c("Si", "No"))
+data$peso <- as.numeric(data$peso)
+data$altura <- as.numeric(data$altura)
+data$alteracion_cutanea <- factor(data$alteracion_cutanea, levels = c(1,0), labels = c("Si", "No"))
+data$glasgow <- as.numeric(data$glasgow)
+data$medicamentos <- factor(data$medicamentos, levels = c(1,0), labels = c("Si", "No"))
+data$medicamentos_cuanto<- as.numeric(data$medicamentos_cuanto)
+
+```
+
+```{r echo=FALSE, comment=NA,message=FALSE, warning = FALSE}
+table1(~  data$alergia + data$peso + data$altura + data$imc + data$peso_ideal + data$alteracion_cutanea + data$temp_ingreso + data$frec_cardiaca + data$dis_ingreso + data$sis_ingreso + data$art_media_ingreso + data$glasgow + data$medicamentos + data$medicamentos_cuanto, data=data, overall = "Total")
+
+```
+
+#Tratamiento COVID y parámetros respiratorios
+
+
+```{r echo=FALSE, comment=NA, results='hide',message=FALSE, warning = FALSE}
+
+data2$ven_soporte <- factor(data2$ven_soporte, levels = c(1,2,3,4,0), labels = c("oxigenoterapia_convencional", "oxigenoterapia_alto_flujo", "vent_mec_no_inv", "vent_mec_inva", "ninguna"))
+data2$ven_modalidad <- factor(data2$ven_modalidad, levels = c(1,2,3,4), labels = c("vent_prog_volumen", "vent_prog_presion", "vent_mixta_doble_control", "presion_positiva_contra_via_aerea"))
+
+data2$ven_humidificacion <- factor(data2$ven_humidificacion, levels = c(1,0), labels = c("Si", "No"))
+data2$ven_prono <- factor(data2$ven_prono, levels = c(1,0), labels = c("Si", "No"))
+
+data2$ven_ecmo <- factor(data2$ven_ecmo, levels = c(1,0), labels = c("Si", "No"))
+
+data2$no_oxi <- factor(data2$no_oxi, levels = c(1,0), labels = c("Si", "No"))
+data2$no_sop_inv <- factor(data2$no_sop_inv, levels = c(1,0), labels = c("Si", "No"))
+data2$no_nes <- factor(data2$no_nes, levels = c(1,0), labels = c("Si", "No"))
+data2$no_sop_no_inv <- factor(data2$no_sop_no_inv, levels = c(1,0), labels = c("Si", "No"))
+
+```
+
+```{r echo=FALSE, comment=NA,message=FALSE, warning = FALSE}
+table1(~ data2$ven_soporte + data2$ven_modalidad + data2$ven_fio +data2$ven_pafi +data2$ven_po +data2$ven_pco +data2$ven_vol +data2$ven_frec_res +data2$ven_peep +data2$ven_presion_sop +data2$ven_tiempo +data2$ven_pme +data2$ven_pmeseta +data2$ven_compliance +data2$ven_humidificacion +data2$ven_prono +data2$ven_balance +data2$ven_compliance +data2$ven_ecmo , data=data2, overall = "Total")
+```
+
+#Tratamiento COVID (oxigenoterapia convencional, sop. respiratorio invasivo, sop. respiratorio no invasivo, necesidad de m.a. de VM)
+
+```{r echo=FALSE, comment=NA,message=FALSE, warning = FALSE}
+table1(~ data2$no_oxi +data2$no_sop_inv +data2$no_nes +data2$no_sop_no_inv, data=data2, overall = "Total")
+```
+
+#Necesidad de UPC, UCI
+
+```{r echo=FALSE, comment=NA, results='hide',message=FALSE, warning = FALSE}
+
+data$nesecidad_upc <- factor(data$nesecidad_upc, levels = c(1,0), labels = c("Si", "No"))
+data$nesecidad_uci <- factor(data$nesecidad_uci, levels = c(1,0), labels = c("Si", "No"))
+
+```
+
+
+```{r echo=FALSE, comment=NA,message=FALSE, warning = FALSE}
+table1(~ data$total_hosp + data$nesecidad_upc + data$total_upc + 
+data$nesecidad_uci + data$total_uci,   data=data, overall = "Total")
+```
+
+#Evaluación al egreso
+
+
+```{r echo=FALSE, comment=NA, results='hide',message=FALSE, warning = FALSE}
+data$tipo_egreso <- factor(data$tipo_egreso, levels = c("1","2","3"), labels = c("Alta a domicilio","Traslado a otro centro hospitalario","Fallecimiento"))
+data$falla_multiple <- factor(data$falla_multiple, levels = c(1,0), labels = c("Si", "No"))
+data$fibrosis_pulmonar <- factor(data$fibrosis_pulmonar, levels = c(1,0), labels = c("Si", "No"))
+data$sos_tormenta <- factor(data$sos_tormenta, levels = c(1,0), labels = c("Si", "No"))
+data$sos_enfermedad <- factor(data$sos_enfermedad, levels = c(1,0), labels = c("Si", "No"))
+data$evento_cardio_mayor <- factor(data$evento_cardio_mayor, levels = c(1,0), labels = c("Si", "No"))
+data$iaas<- factor(data$iaas, levels = c(1,0), labels = c("Si", "No"))
+data$uso_vmi <- factor(data$uso_vmi, levels = c(1,0), labels = c("Si", "No"))
+data$nesecidad_vmi <- factor(data$nesecidad_vmi, levels = c(1,0), labels = c("Si", "No"))
+data$evol_rxtorax <- factor(data$evol_rxtorax, levels = c(1,2,3), labels = c("mejoria", "progresion", "normalidad"))
+data$evol_tomo <- factor(data$evol_tomo, levels = c(1,2,3), labels = c("mejoria", "progresion", "normalidad")) 
+data$fallecido <- factor(data$fallecido, levels = c(1,0), labels = c("Si", "No"))
+```
+
+```{r echo=FALSE, comment=NA,message=FALSE, warning = FALSE}
+table1(~ data$tipo_egreso + data$falla_multiple + data$fibrosis_pulmonar + data$sos_tormenta + data$sos_enfermedad + data$evento_cardio_mayor + data$iaas + data$uso_vmi + data$nesecidad_vmi + data$evol_rxtorax + data$evol_tomo +  data$fallecido, data=data, overall = "Total")
+```
+
 
 
