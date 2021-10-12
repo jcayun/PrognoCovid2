@@ -1,7 +1,7 @@
 ---
 title: "Avance Prognocovid 2021"
 author: "Laboratorio de Carcinogenésis Química y Farmacogenética - Universidad de Chile"
-date: "11/de octubre/2021"
+date: "11/deoctubre/2021"
 output: 
   prettydoc::html_pretty:
     theme: cayman
