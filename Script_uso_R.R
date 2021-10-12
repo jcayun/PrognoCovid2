@@ -8,4 +8,3 @@ token
 
 credentials::set_github_pat("YourPAT")
 
-22222
