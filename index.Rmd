@@ -1,15 +1,46 @@
 ---
 title: "Avance Prognocovid 2021"
 author: "Laboratorio de Carcinogenésis Química y Farmacogenética - Universidad de Chile"
-date: "11/octubre/2021"
+date: "02/diciembre/2021"
 output: 
   prettydoc::html_pretty:
     theme: cayman
     highlight: github
 ---
 
-```{r setud, include=FALSE}
-knitr::opts_chunk$set(echo=TRUE)
+```{r results="hide", message=FALSE}
+library(dplyr) # for create tables
+library(table1) # for create tables
+library(data.table) # for create tables
+library(xlsx) # for import files
+library(XML) # for import files
+library(ggplot2) # for create graph 
+library(psych) 
+library(expss)
+library(car)
+library(compute.es)
+library(effects)
+library(multcomp)
+library(pastecs)
+library(WRSS)
+library(gtsummary) # for create summary tables
+library(readxl) # for import files
+library(gridExtra)
+library(ez)     # for repeated-measures analysis
+library(ggpubr) # for plots
+library(car)    # for Tukey post-hoc test
+library(rstatix)# for p-values in plots
+library(tinytex) # for use marckdown
+library(printr) #for print tables
+library(readxl) # for read excel files
+library(reshape2)
+library(printr)
+library(transplantr) 
+library(gtsummary)
+library(haplo.stats)
+library(SNPassoc)
+library(plink)
+
 ```
 
 
@@ -47,8 +78,51 @@ library(transplantr)
 library(gtsummary)
 library(haplo.stats)
 library(SNPassoc)
+library(plink)
+library(lattice)
+library(genio)
+
 
 ```
+
+```{r}
+#leyendo archivos bim y fam
+fam <- read_fam("samples_subset.fam")
+bim <- read_bim("samples_subset.bim")
+
+#para leer los archivos bed
+#instalar BiocManager::install("snpStats")
+library(snpStats)
+fam <- system.file("extdata/sample.fam", package="snpStats")
+bim <- system.file("extdata/sample.bim", package="snpStats")
+bed <- system.file("extdata/sample.bed", package="snpStats")
+sample <- read.plink(bed, bim, fam)
+#ref: http://bioconductor.org/packages/release/bioc/vignettes/snpStats/inst/doc/data-input-vignette.R
+
+
+
+```
+
+```{r}
+
+#Objetivos:
+#Outcomes: mortalidad, VMI, VMI 10 dia, FOM, Fall, 
+#Modelo predictivo 1: clínico
+#Modelo predictivo 1: bioquímico
+#Modelo predictivo 1: genética
+#Modelo predictivo 1: sociodemográfica
+
+#24 mill de variantes, haciendo los filtros
+#vcf se pasa a plink y se eliminan las filas de filtros, trialeleicas por ejemplos, eliminan 139 mil filas 
+#filtro hw
+#filtro maf
+#se copia el family id con el subjetid id (el mismo)
+#datos vienen faseados
+#
+
+
+```
+
 
 #Avance de resultados del estudio PrognoCovid. Los datos se han actualizado a la fecha indicada. 
 
@@ -56,7 +130,7 @@ library(SNPassoc)
 
 ```{r echo=FALSE, comment=NA, results='hide',message=FALSE, warning = FALSE}
 library(readr)
-COVIDRepositorioCRF_DATA <- read_csv("COVIDRepositorioCRF_DATA_2021-10-11_2247.csv")
+COVIDRepositorioCRF_DATA <- read_csv("COVIDRepositorioCRF_DATA_2021-12-02_1307.csv")
 data <- COVIDRepositorioCRF_DATA
 data <- data[!(is.na(data$cod_participante)),]
 data2 <- COVIDRepositorioCRF_DATA
@@ -74,7 +148,7 @@ data$evaluacion_egreso_complete <- factor(data$evaluacion_egreso_complete, level
 ```
 
 ```{r echo=FALSE, comment=NA, message=FALSE, warning = FALSE}
-table1(~  data$ficha_demografica_complete + data$ficha_clinica_complete + data$evaluacion_egreso_complete, data=data, overall = "Total")
+table1(~  data$ficha_demografica_complete + data$ficha_clinica_complete + data$evaluacion_egreso_complete  | data$hospital, data=data, overall = "Total")
 
 ```
 
@@ -116,7 +190,9 @@ data$num_enf_previas = data$enf_previas_no
 
 
 ```{r echo=FALSE, comment=NA,message=FALSE, warning = FALSE}
-table1(~  data$sexo + data$hospital + data$edad_participante + data$PCR + data$prueba_serologica + data$sospecha_clinica + data$tabaco + data$alcohol + data$drogas + data$dias_hosp + data$num_enf_previas, data=data, overall = "Total")
+table1(~  data$sexo + data$edad_participante + data$PCR + data$prueba_serologica + data$sospecha_clinica | data$hospital, data=data, overall = "Total")
+
+table1(~  data$tabaco + data$alcohol + data$drogas + data$dias_hosp + data$num_enf_previas | data$hospital, data=data, overall = "Total")
 
 ```
 
@@ -256,15 +332,20 @@ table1(~  data$ninguna  +data$bronquitis   +data$hipertension   +data$dislipidem
 data$alergia <- factor(data$alergia, levels = c(1,0), labels = c("Si", "No"))
 data$peso <- as.numeric(data$peso)
 data$altura <- as.numeric(data$altura)
+data$dis_ingreso <- as.numeric(data$dis_ingreso)
+data$sis_ingreso <- as.numeric(data$sis_ingreso)
 data$alteracion_cutanea <- factor(data$alteracion_cutanea, levels = c(1,0), labels = c("Si", "No"))
 data$glasgow <- as.numeric(data$glasgow)
+data$art_media_ingreso <- as.numeric(data$art_media_ingreso)
 data$medicamentos <- factor(data$medicamentos, levels = c(1,0), labels = c("Si", "No"))
 data$medicamentos_cuanto<- as.numeric(data$medicamentos_cuanto)
 
 ```
 
 ```{r echo=FALSE, comment=NA,message=FALSE, warning = FALSE}
-table1(~  data$alergia + data$peso + data$altura + data$imc + data$peso_ideal + data$alteracion_cutanea + data$temp_ingreso + data$frec_cardiaca + data$dis_ingreso + data$sis_ingreso + data$art_media_ingreso + data$glasgow + data$medicamentos + data$medicamentos_cuanto, data=data, overall = "Total")
+table1(~  data$peso + data$altura + data$imc + data$peso_ideal + data$alteracion_cutanea | data$hospital, data=data, overall = "Total")
+
+table1(~  data$temp_ingreso + data$frec_cardiaca + data$dis_ingreso + data$sis_ingreso + data$art_media_ingreso + data$glasgow + data$medicamentos_cuanto | data$hospital, data=data, overall = "Total")
 
 ```
 
@@ -310,7 +391,7 @@ data$nesecidad_uci <- factor(data$nesecidad_uci, levels = c(1,0), labels = c("Si
 
 ```{r echo=FALSE, comment=NA,message=FALSE, warning = FALSE}
 table1(~ data$total_hosp + data$nesecidad_upc + data$total_upc + 
-data$nesecidad_uci + data$total_uci,   data=data, overall = "Total")
+data$nesecidad_uci + data$total_uci | data$hospital,   data=data, overall = "Total")
 ```
 
 #Evaluación al egreso
@@ -332,7 +413,9 @@ data$fallecido <- factor(data$fallecido, levels = c(1,0), labels = c("Si", "No")
 ```
 
 ```{r echo=FALSE, comment=NA,message=FALSE, warning = FALSE}
-table1(~ data$tipo_egreso + data$falla_multiple + data$fibrosis_pulmonar + data$sos_tormenta + data$sos_enfermedad + data$evento_cardio_mayor + data$iaas + data$uso_vmi + data$nesecidad_vmi + data$evol_rxtorax + data$evol_tomo +  data$fallecido, data=data, overall = "Total")
+table1(~ data$tipo_egreso + data$falla_multiple + data$fibrosis_pulmonar + data$sos_tormenta + data$sos_enfermedad + data$evento_cardio_mayor | data$hospital, data=data, overall = "Total")
+
+table1(~ data$iaas + data$uso_vmi + data$nesecidad_vmi + data$evol_rxtorax + data$evol_tomo +  data$fallecido | data$hospital, data=data, overall = "Total")
 ```
 
 #########################################################################
@@ -340,7 +423,49 @@ table1(~ data$tipo_egreso + data$falla_multiple + data$fibrosis_pulmonar + data$
 #########################################################################
 #########################################################################
 
-
+#########################################################################
+#########################################################################
+#########################################################################
+##################################################################################################################################################
+#########################################################################
+#########################################################################
+##################################################################################################################################################
+#########################################################################
+#########################################################################
+##################################################################################################################################################
+#########################################################################
+#########################################################################
+##################################################################################################################################################
+#########################################################################
+#########################################################################
+##################################################################################################################################################
+#########################################################################
+#########################################################################
+##################################################################################################################################################
+#########################################################################
+#########################################################################
+##################################################################################################################################################
+#########################################################################
+#########################################################################
+##################################################################################################################################################
+#########################################################################
+#########################################################################
+##################################################################################################################################################
+#########################################################################
+#########################################################################
+##################################################################################################################################################
+#########################################################################
+#########################################################################
+##################################################################################################################################################
+#########################################################################
+#########################################################################
+##################################################################################################################################################
+#########################################################################
+#########################################################################
+##################################################################################################################################################
+#########################################################################
+#########################################################################
+#########################################################################
 #Tabla resumen demografico en HUAP
 
 #Tabla 8. Se muestra el resumen de los datos principales en HUAP 
@@ -348,13 +473,13 @@ table1(~ data$tipo_egreso + data$falla_multiple + data$fibrosis_pulmonar + data$
 
 ```{r echo=FALSE, comment=NA, results='hide',message=FALSE, warning = FALSE}
 library(readr)
-COVIDRepositorioCRF_DATA <- read_csv("COVIDRepositorioCRF_DATA_2021-10-11_2247.csv")
+COVIDRepositorioCRF_DATA <- read_csv("COVIDRepositorioCRF_DATA_2021-12-02_1307.csv")
 data3 <- COVIDRepositorioCRF_DATA
-data3 <- data3[data3$hospital == 1,]
+data3 <- data3[data3$hospital == 1 | data3$hospital == 2 |  data3$hospital == 5 ,]
 data3 <- data3[!(is.na(data3$cod_participante)),]
 
 data4 <- COVIDRepositorioCRF_DATA
-data4 <- data4[data4$redcap_data_access_group == 'hap',]
+data4 <- data4[data4$redcap_data_access_group == 'hap' |  data4$redcap_data_access_group == 'uch'    |  data4$redcap_data_access_group == 'hig' ,]
 data4 <- data4[(is.na(data4$cod_participante)),]
 
 ```
@@ -374,7 +499,7 @@ data3$num_enf_previas = data3$enf_previas_no
 ```
 
 ```{r echo=FALSE, comment=NA,message=FALSE, warning = FALSE}
-table1(~  data3$sexo + data3$edad_participante + data3$PCR + data3$prueba_serologica + data3$sospecha_clinica + data3$tabaco + data3$alcohol + data3$drogas + data3$dias_hosp + data3$num_enf_previas, data=data3, overall = "Total")
+table1(~  data3$sexo + data3$edad_participante + data3$PCR + data3$prueba_serologica + data3$sospecha_clinica + data3$tabaco + data3$alcohol + data3$drogas + data3$dias_hosp + data3$num_enf_previas | data3$hospital, data=data3, overall = "Total")
 ```
 
 #Tabla 9. Sintomas al ingreso en HUAP
@@ -588,6 +713,16 @@ data3$tipo_egreso , data3$falla_multiple , data3$fibrosis_pulmonar , data3$sos_t
 
 write.xlsx(data3_extraido, "data3_extraido.xlsx")
 
+#con menos datos, para hacer el seguimiento y llenado básico
+
+data5_extraido <- data.frame(data3$cod_universal, data3$cod_participante,  data3$sexo, data3$edad_participante , data3$PCR , data3$prueba_serologica , data3$sospecha_clinica , data3$tabaco , data3$alcohol , data3$drogas , data3$dias_hosp , data3$num_enf_previas, data3$medicamentos , data3$medicamentos_cuanto,
+data3$total_hosp , data3$nesecidad_upc , data3$total_upc , data3$nesecidad_uci , data3$total_uci,
+data3$tipo_egreso , data3$falla_multiple , data3$fibrosis_pulmonar , data3$sos_tormenta , data3$sos_enfermedad , data3$evento_cardio_mayor , data3$iaas , data3$uso_vmi , data3$nesecidad_vmi ,  data3$total_upc  ,  data3$total_uci, data3$evol_rxtorax , data3$evol_tomo ,  data3$fallecido)
+
+
+write.xlsx(data5_extraido, "data5_extraido.xlsx")
+
+
 data4_extraido <- data.frame(data4$cod_universal, data4$ven_soporte , data4$ven_modalidad , data4$ven_fio ,data4$ven_pafi ,data4$ven_po ,data4$ven_pco ,data4$ven_vol ,data4$ven_frec_res ,data4$ven_peep ,data4$ven_presion_sop ,data4$ven_tiempo ,data4$ven_pme ,data4$ven_pmeseta ,data4$ven_compliance ,data4$ven_humidificacion ,data4$ven_prono ,data4$ven_balance ,data4$ven_compliance ,data4$ven_ecmo ,
 data4$no_oxi ,data4$no_sop_inv ,data4$no_nes ,data4$no_sop_no_inv)
 
@@ -597,77 +732,80 @@ write.xlsx(data4_extraido, "data4_extraido.xlsx")
 ```
 
 
-#########################################################################
-#########################################################################
-#########################################################################
-#########################################################################
-
-
-
-#Obtención de datos de otros sistemas
-
-```{r echo=FALSE, comment=NA,message=FALSE, warning = FALSE}
-library(readxl)
-Hospital_COVID_1_ <- read_excel("basescovid/Hospital-COVID (1).xlsx")
-
-data10 <- Hospital_COVID_1_
-
-```
+#Medicamentos previos
 
 ```{r echo=FALSE, comment=NA,message=FALSE, warning = FALSE}
 
-data10$cod_universal <- data10$ID
-data10$sexo <- data10$Gender...4
-data10$edad_participante <- data10$Age
-data10$tabaco <- data10$Smoker
-data10$alcohol <- data10$Alcohol
-data10$dias_hosp <- data10$`Dias Hosp`
-data10$fiebre <- data10$Fiebre
-data10$tos_seca <- data10$Tos
-data10$tos_productiva <- data10$Tos
-data10$dolor_pecho <- data10$`Dolor Torax`
-data10$disnea <- data10$Disnea
-data10$diarrea <- data10$Diarrea
-data10$dolor_abdominal <- data10$`Dolor Abdominal`
-data10$mialgia <- data10$Mialgia
-data10$odinofagia <- data10$Odinofagia
-data10$adeusia <- data10$Augeusia
-data10$cefalea <- data10$Cefalea
-data10$anosmia <- data10$Anosmia
+data3_med_prev_cod_uni <- data3$cod_universal
+data3_med_prev_1 <- data3$tipo_medicamentos1
+data3_med_prev_2 <- data3$tipo_medicamentos2
+data3_med_prev_3 <- data3$tipo_medicamentos3
+data3_med_prev_4 <- data3$tipo_medicamentos4
+data3_med_prev_5 <- data3$tipo_medicamentos5
+data3_med_prev_6 <- data3$tipo_medicamentos6
+data3_med_prev_7 <- data3$tipo_medicamentos7
+data3_med_prev_8 <- data3$tipo_medicamentos8
+data3_med_prev_9 <- data3$tipo_medicamentos9
+data3_med_prev_10 <- data3$tipo_medicamentos10
+data3_med_prev_11 <- data3$tipo_medicamentos11
+data3_med_prev_12 <- data3$tipo_medicamentos12
+data3_med_prev_13 <- data3$tipo_medicamentos13
+data3_med_prev_14 <- data3$tipo_medicamentos14
+data3_med_prev_15 <- data3$tipo_medicamentos15
+data3_med_prev_ot1 <- data3$tipo_medicamentos_ot1
+data3_med_prev_ot2 <- data3$tipo_medicamentos_ot2
+data3_med_prev_ot3 <- data3$tipo_medicamentos_ot3
+data3_med_prev_ot4 <- data3$tipo_medicamentos_ot4
+data3_med_prev_ot5 <- data3$tipo_medicamentos_ot5
+data3_med_prev_ot6 <- data3$tipo_medicamentos_ot6
+data3_med_prev_ot7 <- data3$tipo_medicamentos_ot7
+data3_med_prev_ot8 <- data3$tipo_medicamentos_ot8
+data3_med_prev_ot9 <- data3$tipo_medicamentos_ot9
+data3_med_prev_ot10 <- data3$tipo_medicamentos_ot10
+data3_med_prev_ot11 <- data3$tipo_medicamentos_ot11
+data3_med_prev_ot12 <- data3$tipo_medicamentos_ot12
+data3_med_prev_ot13 <- data3$tipo_medicamentos_ot13
+data3_med_prev_ot14 <- data3$tipo_medicamentos_ot14
+data3_med_prev_ot15 <- data3$tipo_medicamentos_ot15
 
-data10$hipertension  <- data10$HTA 
-data10$ins_renal_cronica   <- data10$CKD
-data10$epoc   <- data10$COPD
-data10$diabetes2 <- data10$T2DM  
-data10$cancer  <- data10$Cancer
+setwd("/Users/juanpablocayunpellizaris/Dropbox/2021 PROGNO COVID 2021/3. COVID 2021/1. MONITOREO DEL ESTUDIO/7_REVISION_DATOS/PrognoCovid2")
 
-data10$peso <- data10$Weight
-data10$altura <- data10$Height
-data10$imc <- data10$BMI
-data10$total_uci  <- data10$`Dias en UCI`
-data10$nesecidad_vmi <- data10$VMI 
-
-
-data10_extraido <- data.frame(     
+data3_extraido_med_previos <- data.frame(
+data3_med_prev_cod_uni ,
+data3_med_prev_1 ,
+data3_med_prev_2 ,
+data3_med_prev_3 ,
+data3_med_prev_4 ,
+data3_med_prev_5 ,
+data3_med_prev_6 ,
+data3_med_prev_7 ,
+data3_med_prev_8 ,
+data3_med_prev_9 ,
+data3_med_prev_10 ,
+data3_med_prev_11 ,
+data3_med_prev_12 ,
+data3_med_prev_13 ,
+data3_med_prev_14 ,
+data3_med_prev_15 ,
+data3_med_prev_ot1 ,
+data3_med_prev_ot2 ,
+data3_med_prev_ot3 ,
+data3_med_prev_ot4 ,
+data3_med_prev_ot5 ,
+data3_med_prev_ot6 ,
+data3_med_prev_ot7 ,
+data3_med_prev_ot8 ,
+data3_med_prev_ot9 ,
+data3_med_prev_ot10 ,
+data3_med_prev_ot11 ,
+data3_med_prev_ot12 ,
+data3_med_prev_ot13 ,
+data3_med_prev_ot14 ,
+data3_med_prev_ot15 
   
+)
   
-  )
-
-```
-
-
-
-#########################################################################
-#########################################################################
-#########################################################################
-#########################################################################
-
-
-
-#Generación de una base de datos común
-
-
-```{r echo=FALSE, comment=NA,message=FALSE, warning = FALSE}
+write.xlsx(data3_extraido_med_previos, "data3_extraido_med_previos.xlsx")
 
 ```
 
@@ -678,39 +816,5 @@ data10_extraido <- data.frame(
 #########################################################################
 #########################################################################
 #########################################################################
-
-
-#Resultados demográficos
-
-```{r echo=FALSE, comment=NA,message=FALSE, warning = FALSE}
-
-```
-
-
-#Resultados de sintomas al ingreso
-
-```{r echo=FALSE, comment=NA,message=FALSE, warning = FALSE}
-
-```
-
-
-#Resultados de enfermedades previas
-
-```{r echo=FALSE, comment=NA,message=FALSE, warning = FALSE}
-
-```
-
-
-#Resultados de evaluación al egreso
-
-
-```{r echo=FALSE, comment=NA,message=FALSE, warning = FALSE}
-
-```
-
-
-
-
-
 
 
